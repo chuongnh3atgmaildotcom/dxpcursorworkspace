@@ -1,0 +1,43 @@
+---
+description: DXC deployment automation (dxc-deployment-automation) conventions and patterns
+globs: dxc-deployment-automation/**/*
+alwaysApply: false
+---
+
+# DXC Deployment Automation
+
+When working in **dxc-deployment-automation**, follow these conventions:
+
+## Repo Structure
+
+- **InternalModules/** – PowerShell modules (EpiDeploy, CloudFlareModule, DataDog, PaasPortal, etc.)
+- **ScriptRunbooks/** – Azure Automation runbooks called by PaaS workers
+- **BuildScripts/** – CI/CD and build automation
+- **Tests/** – Pester unit and integration tests
+
+## Runbook Contracts
+
+- Runbook names match what PaaS sends (e.g. `Start-EPiDeployment`, `Complete-EPiDeployment`)
+- Parameter names are contract – changing them requires coordination with PaaS workers
+- See `ARCHITECTURE.md` for flow: PaaS Worker → Azure Automation → Runbook params
+
+## Code Style (PowerShell)
+
+- **Indentation**: 4 spaces
+- **Functions**: `Verb-Noun`, full cmdlet names (no aliases)
+- **Variables**: camelCase (e.g. `$webAppName`, `$resourceGroupName`)
+- **Error handling**: try/catch for external systems, retry via `Invoke-EpiCommandWithRetry`
+- **Logging**: `Write-EPiLogLine` for structured runbook logging
+
+## Testing
+
+- Unit tests in `*/Tests/Unit/`, named `{Function}.Unit.Tests.ps1`
+- Import module via `.psm1` in tests; mock Azure/external calls
+- Run: `BuildScripts/Invoke-PesterTest.ps1`
+
+## Cross-Repo Changes
+
+If changing runbook parameters or contracts:
+1. Update dxc-deployment-automation runbook
+2. Update PaaS worker that invokes it
+3. Update `ARCHITECTURE.md` contracts table

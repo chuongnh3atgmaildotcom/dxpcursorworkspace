@@ -1,0 +1,30 @@
+---
+description: Keep architecture docs and C4 diagrams in sync with code
+globs: "**/ARCHITECTURE.md"
+alwaysApply: false
+---
+
+# Architecture Documentation
+
+When editing **ARCHITECTURE.md** or adding architecture diagrams:
+
+## C4 Model
+
+Use the C4 model (Context, Container, Component, Dynamic, Deployment). Diagrams in ARCHITECTURE.md use Mermaid C4 syntax.
+
+- **Context**: System and external actors
+- **Container**: Main apps/repos (PaaS, runbooks, EpiCloud)
+- **Dynamic**: Runtime flows with RelIndex for numbered interactions
+
+## Diagram Syntax
+
+- **C4Context** / **C4Container**: `Person()`, `System()`, `System_Ext()`, `Container()`, `Rel()`
+- **C4Dynamic**: `Person()`, `Container()`, `RelIndex(index, from, to, label)`
+- **sequenceDiagram**: Standard Mermaid for sequence-style flows
+
+## Keep Docs Updated
+
+When changing flows, messages, runbooks, or API contracts:
+1. Update the relevant C4 or sequence diagram
+2. Update the "Key contracts" table
+3. Update the "Job / API call chain" section

@@ -1,0 +1,26 @@
+---
+description: EpiCloud PowerShell module – API client for DXC PaaS
+globs: EpiCloud/**/*
+alwaysApply: false
+---
+
+# EpiCloud
+
+EpiCloud is a PowerShell module that calls the PaaS deployment API. When working in **EpiCloud**:
+
+## Structure
+
+- **source/Public/** – Public cmdlets (e.g. `Start-EpiDeployment.ps1`, `Complete-EpiDeployment.ps1`)
+- **source/Private/** – Helpers (API requests, auth, encoding)
+- **source/Tests/** – Pester unit and integration tests
+
+## API Flow
+
+1. `Connect-EpiCloud` – authenticate and set session
+2. `Start-EpiDeployment`, `Complete-EpiDeployment`, `Reset-EpiDeployment` – deployment lifecycle
+3. `Get-EpiDeployment`, `Get-EpiDatabaseExport` – status and exports
+
+## Contracts
+
+- Parameters (ClientKey, ClientSecret, ProjectId, DeploymentPackage, etc.) map to PaaS API
+- Changing parameters may require PaaS API and ARCHITECTURE.md updates

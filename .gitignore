@@ -1,0 +1,13 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+*.swp
+*.swo
+*~
+
+# Logs / Temp
+*.log
+*.tmp
+.cache/

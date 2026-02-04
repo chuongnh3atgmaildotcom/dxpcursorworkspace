@@ -1,0 +1,31 @@
+---
+description: Multi-repo workspace and job/API flow across apps
+alwaysApply: true
+---
+
+# Multi-repo workspace and job flow
+
+This workspace includes **multiple repositories** under `C:\Source` that work together in an **API/job call chain**. When answering questions or making changes:
+
+1. **Consider all repo roots**
+   Code and behavior may live in **PaaS**, **cms**, **commerce**, **content-cloudplatform**, **dxc-deployment-automation**, or **EpiCloud**. Search and reason across these folders when tracing a flow.
+
+2. **Use the architecture doc for flow**
+   Read **`_workspace/ARCHITECTURE.md`** (in the "Workspace docs" folder) to understand:
+   - What each repo is for
+   - How jobs/requests move from one app to another (entry point → workers → runbooks/APIs)
+   - Key message names, runbook names, and API contracts
+
+3. **Tracing a job or request**
+   When the user asks how something works end-to-end or where a job is handled:
+   - Start from the entry point (UI, API, or external call) in the doc
+   - Follow the chain: e.g. PaaS API/Portal → message bus → PaaS worker → runbook parameters → dxc-deployment-automation runbooks (or EpiCloud calling PaaS API)
+   - Search for the **exact message/command/runbook name** and **parameter names** across repos to find producers and consumers
+
+4. **Making changes across the chain**
+   If a change affects the contract (e.g. a new runbook parameter or API field), update or consider:
+   - The producer (e.g. PaaS worker sending the message/params)
+   - The consumer (e.g. runbook in dxc-deployment-automation or API handler in PaaS)
+   - **ARCHITECTURE.md** so the flow description stays accurate
+
+Keep **ARCHITECTURE.md** updated when you add or change cross-repo flows.
