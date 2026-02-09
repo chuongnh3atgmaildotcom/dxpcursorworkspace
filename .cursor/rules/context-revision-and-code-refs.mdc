@@ -1,0 +1,43 @@
+---
+description: Require git revision context and structured code references in answers
+alwaysApply: true
+---
+
+# Context Revision and Code References
+
+Follow these steps for every substantial answer:
+
+## 1. Get current revision
+
+Before analyzing or suggesting changes, always run:
+
+```bash
+git rev-parse --short HEAD
+```
+
+Use the returned short SHA as the context revision for the answer.
+
+## 2. Lead with context revision
+
+At the top of every substantial answer, print:
+
+```
+Context Revision: [SHA]
+```
+
+Replace `[SHA]` with the output of `git rev-parse --short HEAD` from the repo you are working in.
+
+## 3. Format all code references
+
+Every code reference must use this format:
+
+```
+[File Path](Line Start - Line End)
+```
+
+Examples:
+
+- Single line: `[src/utils.ts](42 - 42)`
+- Range: `[ScriptRunbooks/MyRunbook.ps1](10 - 25)`
+
+When citing a code block or region, include the path and line range in this form so readers can jump to the exact location.
