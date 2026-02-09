@@ -1,43 +1,20 @@
 ---
-description: Require git revision context and structured code references in answers
 alwaysApply: true
 ---
+# Code Citation Format
 
-# Context Revision and Code References
+When citing or referencing code from the codebase, **always use the jumpable snippet format** so the user can click to navigate:
 
-Follow these steps for every substantial answer:
+- First line of the code block: `startLine:endLine:relative/path/to/file.ext`
+- Followed by the actual code lines
 
-## 1. Get current revision
+## Rules
 
-Before analyzing or suggesting changes, always run:
+- Include enough lines for context (typically 3–8 lines).
+- Use the actual file path relative to the workspace root.
+- Line numbers must be accurate for the current file contents.
+- Use this format for any code block that references a specific location in the repo.
 
-```bash
-git rev-parse --short HEAD
-```
+## Example
 
-Use the returned short SHA as the context revision for the answer.
-
-## 2. Lead with context revision
-
-At the top of every substantial answer, print:
-
-```
-Context Revision: [SHA]
-```
-
-Replace `[SHA]` with the output of `git rev-parse --short HEAD` from the repo you are working in.
-
-## 3. Format all code references
-
-Every code reference must use this format:
-
-```
-[File Path](Line Start - Line End)
-```
-
-Examples:
-
-- Single line: `[src/utils.ts](42 - 42)`
-- Range: `[ScriptRunbooks/MyRunbook.ps1](10 - 25)`
-
-When citing a code block or region, include the path and line range in this form so readers can jump to the exact location.
+Format: ```startLine:endLine:relative/path followed by the code block. Example path: `55:58:BuildScripts/Invoke-AutomationAccountDeployment.ps1`

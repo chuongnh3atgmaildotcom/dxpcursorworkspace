@@ -1,0 +1,27 @@
+---
+description: Deep PowerShell execution analysis—apply manually when you want full call-chain tracing (drill into custom functions until built-ins; describe built-in lines by parameters)
+alwaysApply: false
+---
+
+# PowerShell Code Execution Sequence (Apply Manually)
+
+Use this rule when the user asks for **deep analysis** of a code process. Do not apply it unless the user mentions this rule or requests that level of analysis.
+
+When explaining code execution sequence in PowerShell scripts:
+
+## Custom functions: explore recursively
+
+- **Drill down**: For each call to a custom function (project modules, dot-sourced scripts, or other user-defined functions), follow the execution into that function's definition.
+- **Repeat**: Continue following calls to custom functions at each level until you reach a line that invokes a **built-in PowerShell cmdlet** or .NET call.
+- **Levels**: Do not stop at the first level; explore every custom function in the call chain until you hit built-ins.
+
+## Built-in lines (cmdlet or .NET): concise and parameter-specific
+
+- For a line that **only** invokes a built-in (PowerShell cmdlet or .NET method), give a **concise** description of what that line does.
+- Be **specific to the line**: describe what it does **based on the parameters** actually used (e.g. not "lists items" but "lists child items in `$path` with `-Recurse`" or "writes `$json` to `$outPath` as UTF8").
+- One sentence is enough; no generic cmdlet tutorials.
+
+## Summary
+
+- **Custom function** → open its definition and keep tracing until you see built-ins.
+- **Built-in (cmdlet / .NET)** → one concise, parameter-specific description of what the line does.
