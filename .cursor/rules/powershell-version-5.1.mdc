@@ -1,0 +1,26 @@
+---
+description: Use Windows PowerShell 5.1 for this project; do not use pwsh (PowerShell 7)
+alwaysApply: true
+---
+
+# PowerShell Version: Use 5.1
+
+This workspace is designed for **Windows PowerShell 5.1** (the version shipped with the OS), not PowerShell 7 (pwsh).
+
+## What to do
+
+- When running PowerShell scripts or commands in the terminal, use **Windows PowerShell 5.1**.
+- Prefer invoking `powershell` (or `powershell.exe`) so the default Windows PowerShell runs.
+- Do **not** use `pwsh` or assume PowerShell 7 is the target.
+- When the agent invokes PowerShell (e.g. to run tests or scripts), **always use `-NoProfile`** so the user's profile does not run. Profile code (e.g. `Set-PSReadLineOption`) often fails when output is redirected (IDE/agent context) and clutters output.
+
+## Examples
+
+- **✅ GOOD**: `powershell -NoProfile -File script.ps1` or `powershell -NoProfile -Command "Invoke-Pester ..."`.
+- **✅ GOOD**: If the user's shell is already Windows PowerShell 5.1, run commands directly (profile is then their choice).
+- **❌ BAD**: Using `pwsh` or `pwsh.exe` to execute project scripts, unless the user explicitly requests PowerShell 7.
+- **❌ BAD**: `powershell -Command "..."` without `-NoProfile` when the agent runs the command (profile runs and can emit errors like Set-PSReadLineOption in redirected contexts).
+
+## Note
+
+If the integrated terminal or user environment is set to pwsh by default, suggest or use an explicit invocation with `powershell` when executing project-related PowerShell so behavior matches the 5.1 design.

@@ -1,13 +1,5 @@
-# OS
-.DS_Store
-Thumbs.db
-
-# IDE / Editor
-*.swp
-*.swo
-*~
-
-# Logs / Temp
-*.log
-*.tmp
-.cache/
+# Environment and secrets
+.env
+.env.*
+!.env.example
+*.pem

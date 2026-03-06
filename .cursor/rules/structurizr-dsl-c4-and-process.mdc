@@ -1,0 +1,57 @@
+---
+description: Structurizr DSL — single C4 model file, process execution in multiple files; cross-repo processes; modelling for shared understanding
+globs: "**/*.dsl"
+alwaysApply: false
+---
+
+# Structurizr DSL: C4 Model and Process Execution
+
+Use **Structurizr DSL** for architecture documentation. Keep a single source of truth for the C4 model and describe process execution in separate files. **Processes often describe communication across multiple repos** in this workspace (e.g. PaaS → runbooks → dxc-deployment-automation).
+
+## Purpose: Modelling, Not Rendering
+
+- **Focus on modelling**: The DSL is for a **shared understanding** between developers and AI — accuracy and ease of understanding matter most.
+- **Diagram rendering is secondary**: Optimise for a correct, readable model; do not prioritise how diagrams look when rendered.
+
+## File Layout
+
+- **One C4 model file** (e.g. `workspace.dsl` or `c4-model.dsl` in the Structurizr data directory): contains the full C4 model — workspace, model (software systems, containers, components), and shared views. This file is the **single source of truth** for the architecture.
+- **Multiple process files** (e.g. `flow-start-deployment.dsl`, `flow-resource-group-cleanup.dsl`): each file describes one process or flow (dynamic views, deployment views, or included documentation). Use `!include` or the Structurizr Lite/CLI approach to compose them if your setup supports it.
+
+## Process Descriptor: What to Capture Per Step
+
+For each step in a process (especially cross-repo flows), try to show as much of the following as possible:
+
+| Aspect | Meaning |
+|--------|--------|
+| **Actors** | Who or what performs the step (person, system, container, component, repo/service). |
+| **Triggers** | What causes this step (event, message, API call, schedule, manual action). |
+| **Actions** | What is done (invoke runbook, send message, call API, write artifact). |
+| **Causality** | What this step causes next (order, dependencies, “then …”). |
+| **Artifacts** | Inputs/outputs (messages, payloads, config, files, IDs). |
+| **Modes** | Active (initiates/executes) vs passive (waits, receives, reacts). |
+| **Boundaries** | Repo, system, or deployment boundary the step lives in (e.g. PaaS vs Azure Automation vs dxc-deployment-automation). |
+
+Document these in the DSL (relationships, descriptions, tags, or in linked docs) so the model stays the single source of truth for how the process works across repos.
+
+## When Creating a New Process DSL File
+
+1. **Add the new process file** (e.g. a new flow or deployment view) in the agreed location (e.g. same directory as the C4 model or a `processes/` subfolder).
+2. **Update the C4 model file** so the source of truth stays current:
+   - If the process introduces **new elements** (systems, containers, components, people), add them to the **model** section of the C4 model file.
+   - If the process only references existing elements, add or link the **view** (e.g. dynamic view) in the C4 model file or in the process file according to your workspace structure.
+   - Ensure **relationships** used in the process (e.g. `a -> b`) exist in the model; the DSL does not support forward references, so define elements before using them in relationships.
+
+## Conventions
+
+- Define elements **before** using them in relationships (no forward references in Structurizr DSL).
+- Use **hierarchical identifiers** (`!identifiers hierarchical`) if you refer across boundaries (e.g. `a.aa -> b.bb`).
+- Keep the C4 model file as the single place that defines all systems, containers, and components; process files add views and narrative, not new model elements, unless you explicitly split model across files and include them.
+
+## Checklist When Adding a Process DSL File
+
+- [ ] New process/flow file created and named clearly (e.g. by flow or runbook name).
+- [ ] C4 model file updated: new elements added to `model { }` if the process introduces them.
+- [ ] Relationships used in the new process exist in the model (defined before use).
+- [ ] Views for the new process added to the C4 model file or included so the workspace stays consistent.
+- [ ] Each step captures what’s relevant: actors, triggers, actions, causality, artifacts, modes (active/passive), and boundaries (especially across repos).
