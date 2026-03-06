@@ -11,10 +11,25 @@ When citing or referencing code from the codebase, **always use the jumpable sni
 ## Rules
 
 - Include enough lines for context (typically 3–8 lines).
-- Use the actual file path relative to the workspace root.
+- **Relative path base:** Use paths relative to the **workspace file’s directory** (the folder that contains the `.code-workspace` file), not relative to `_workspace`. That directory is the parent of all repo roots (e.g. `C:\Source` when using `Source.code-workspace`).
+- Use forward slashes in cited paths (e.g. `PaaS/PaaS/EPiServer.PaaS.../File.cs` for files under the PaaS solution folder).
 - Line numbers must be accurate for the current file contents.
 - Use this format for any code block that references a specific location in the repo.
 
+## Workspace layout (for path resolution)
+
+Workspace file: `C:\Source\Source.code-workspace`. Base for all relative paths: **`C:\Source`** (the directory that contains the workspace file). All repo roots are siblings under that base. Use these prefixes when citing files:
+
+| Repo / root        | Citation path prefix (from `C:\Source`) | Example file path |
+|--------------------|-----------------------------------------|-------------------|
+| _workspace         | `_workspace/`                           | `_workspace/.cursor/rules/context-revision-and-code-refs.mdc` |
+| dxc-deployment-automation | `dxc-deployment-automation/`   | `dxc-deployment-automation/BuildScripts/Invoke-AutomationAccountDeployment.ps1` |
+| EpiCloud           | `EpiCloud/`                             | `EpiCloud/...` (path under repo root) |
+| chuongnhpwshtest   | `chuongnhpwshtest/`                     | `chuongnhpwshtest/util/runner.ps1` |
+| PaaS               | `PaaS/PaaS/` for solution files         | `PaaS/PaaS/EPiServer.PaaS.ProvisioningWorker.Base/MessageHandlers/HandleCompleteCustomHostnameProvisioning.cs` |
+
+If the editor is opened as a single folder (e.g. only `C:\Source\_workspace`), paths to files in other repos are outside that root and click-to-open may not work. Open via the workspace file for correct resolution.
+
 ## Example
 
-Format: ```startLine:endLine:relative/path followed by the code block. Example path: `55:58:BuildScripts/Invoke-AutomationAccountDeployment.ps1`
+Format: ```startLine:endLine:relative/path followed by the code block. Relative path is from `C:\Source`. Examples: `55:58:dxc-deployment-automation/BuildScripts/Invoke-AutomationAccountDeployment.ps1`; `1:10:PaaS/PaaS/EPiServer.PaaS.ProvisioningWorker.Base/MessageHandlers/HandleCompleteCustomHostnameProvisioning.cs`; `1:5:_workspace/.cursor/rules/context-revision-and-code-refs.mdc`; `1:10:chuongnhpwshtest/util/runner.ps1`.
